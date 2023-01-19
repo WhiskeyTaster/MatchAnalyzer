@@ -6,6 +6,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventService {
     @JsonProperty("Events")
@@ -66,6 +69,16 @@ public class EventService {
                 .sorted((a, b) -> Double.compare(getMaxEventProbability(b), getMaxEventProbability(a)))
                 .limit(numOfEvents)
                 .forEach(this::printEvent);
+    }
+
+    public List<Event> getMostProbableResults(int numOfEvents) {
+        if (numOfEvents < 1)
+            return new ArrayList<>();
+
+        return events.stream()
+                .sorted((a, b) -> Double.compare(getMaxEventProbability(b), getMaxEventProbability(a)))
+                .limit(numOfEvents)
+                .collect(Collectors.toList());
     }
 
 }
