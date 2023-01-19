@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 public class EventService {
     @JsonProperty("Events")
     private final ArrayList<Event> events = new ArrayList<>();
@@ -35,7 +36,7 @@ public class EventService {
         return result;
     }
 
-    private void printEvent(final @NotNull Event event) {
+    public String stringEvent(final @NotNull Event event) {
         StringBuilder builder = new StringBuilder();
         String startDateString = "Start date: " +
                 event.getStartDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + ",\n";
@@ -46,7 +47,7 @@ public class EventService {
 
         String venueString = "Venue: ";
         if (event.getVenue() == null)
-            venueString += "brak \n";
+            venueString += "no data, \n";
         else
             venueString += event.getVenue().getName() + ", \n";
 
@@ -60,18 +61,19 @@ public class EventService {
                 .append(mostProbableResultString);
 
 
-        System.out.println(builder);
+        return builder.toString();
     }
 
-    public void printAll() {
-        events.stream().forEach(this::printEvent);
+    public List<String> getEventsStringList() {
+        return events.stream()
+                .map(this::stringEvent)
+                .collect(Collectors.toList());
     }
 
-    public void printMostProbable(int numOfEvents) {
-        events.stream()
-                .sorted((a, b) -> Double.compare(getMaxEventProbability(b), getMaxEventProbability(a)))
-                .limit(numOfEvents)
-                .forEach(this::printEvent);
+    public List<String> getMostProbableResultsAsString(int numOfEvents) {
+        return getMostProbableResults(numOfEvents).stream()
+                .map(this::stringEvent)
+                .collect(Collectors.toList());
     }
 
     public List<Event> getMostProbableResults(int numOfEvents) {
@@ -84,11 +86,7 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public List<Event> getEvents() {
-        return events;
-    }
-
-    public void loadUniqueTeamNames() {
+    private void loadUniqueTeamNames() {
         uniqueTeamNames.addAll(
                 events.stream()
                         .map(Event::getHomeTeam)
@@ -104,9 +102,11 @@ public class EventService {
         );
     }
 
-    public void printTeamNamesAlphabetically() {
-        uniqueTeamNames.stream()
+    public List<String> getTeamNamesAlphabetically() {
+        if (uniqueTeamNames.size() == 0)
+            loadUniqueTeamNames();
+        return uniqueTeamNames.stream()
                 .sorted(String::compareTo)
-                .forEach(System.out::println);
+                .collect(Collectors.toList());
     }
 }

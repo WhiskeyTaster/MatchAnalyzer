@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whiskeytaster.matchanalyzer.service.EventService;
 
 import java.io.File;
-
 public class Driver {
     private final ObjectMapper objectMapper;
 
@@ -22,11 +21,5 @@ public class Driver {
             System.out.println(e.getMessage());
         }
         return events;
-    }
-
-    public static void main(String[] args) {
-        Driver driver = new Driver();
-        EventService eventService = driver.readEventsFromFile("src/main/resources/data/BE_data.json");
-        eventService.printMostProbable(10);
     }
 }
