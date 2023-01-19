@@ -1,18 +1,21 @@
 package com.whiskeytaster.matchanalyzer.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.whiskeytaster.matchanalyzer.model.Competitor;
 import com.whiskeytaster.matchanalyzer.model.Event;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class EventService {
     @JsonProperty("Events")
-    private ArrayList<Event> events;
+    private final ArrayList<Event> events = new ArrayList<>();
+    private final Set<String> uniqueTeamNames = new HashSet<>();
 
     private double getMaxEventProbability(final @NotNull Event event) {
         return Double.max(event.getProbabilityHomeTeamWinner(),
@@ -81,4 +84,29 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void loadUniqueTeamNames() {
+        uniqueTeamNames.addAll(
+                events.stream()
+                        .map(Event::getHomeTeam)
+                        .map(Competitor::getName)
+                        .collect(Collectors.toSet())
+        );
+
+        uniqueTeamNames.addAll(
+                events.stream()
+                        .map(Event::getAwayTeam)
+                        .map(Competitor::getName)
+                        .collect(Collectors.toSet())
+        );
+    }
+
+    public void printTeamNamesAlphabetically() {
+        uniqueTeamNames.stream()
+                .sorted(String::compareTo)
+                .forEach(System.out::println);
+    }
 }
