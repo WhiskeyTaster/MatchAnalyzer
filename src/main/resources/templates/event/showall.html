@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org en">
+
+<title>Events list</title>
+
+<div class="content">
+    <table class="display table table-bordered" style="width:800px">
+        <tbody>
+        <tr style="white-space: pre;" th:each="event : ${events}">
+            <td style="padding: 12px;" class="text-center"th:text= "${event}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
