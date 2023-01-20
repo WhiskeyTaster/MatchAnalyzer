@@ -1,9 +1,11 @@
 package com.whiskeytaster.matchanalyzer.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.whiskeytaster.matchanalyzer.model.Competitor;
 import com.whiskeytaster.matchanalyzer.model.Event;
+import com.whiskeytaster.matchanalyzer.model.EventStorage;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Controller;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,28 +14,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
+@Controller
+@RequiredArgsConstructor
 public class EventService {
-    @JsonProperty("Events")
-    private final ArrayList<Event> events = new ArrayList<>();
+    private final EventStorage eventStorage;
     private final Set<String> uniqueTeamNames = new HashSet<>();
 
-    private double getMaxEventProbability(final @NotNull Event event) {
-        return Double.max(event.getProbabilityHomeTeamWinner(),
-                Double.max(event.getProbabilityDraw(), event.getProbabilityAwayTeamWinner()));
-    }
-
-    private @NotNull String getEventMostProbableResult(final @NotNull Event event) {
-        double maxProbability = getMaxEventProbability(event);
-        String result = "";
-
-        if (Double.compare(maxProbability, event.getProbabilityHomeTeamWinner()) == 0)
-            result += "HOME_TEAM_WIN";
-        else if (Double.compare(maxProbability, event.getProbabilityDraw()) == 0)
-            result += "DRAW";
-        else
-            result += "AWAY_TEAM_WIN";
-        return result;
+    public List<String> getTeamNamesAlphabetically() {
+        if (uniqueTeamNames.size() == 0)
+            loadUniqueTeamNames();
+        return uniqueTeamNames.stream()
+                .sorted(String::compareTo)
+                .toList();
     }
 
     public String stringEvent(final @NotNull Event event) {
@@ -65,48 +57,61 @@ public class EventService {
     }
 
     public List<String> getEventsStringList() {
-        return events.stream()
+        return eventStorage.getEvents()
+                .stream()
                 .map(this::stringEvent)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<String> getMostProbableResultsAsString(int numOfEvents) {
         return getMostProbableResults(numOfEvents).stream()
                 .map(this::stringEvent)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Event> getMostProbableResults(int numOfEvents) {
         if (numOfEvents < 1)
             return new ArrayList<>();
 
-        return events.stream()
+        return eventStorage.getEvents()
+                .stream()
                 .sorted((a, b) -> Double.compare(getMaxEventProbability(b), getMaxEventProbability(a)))
                 .limit(numOfEvents)
-                .collect(Collectors.toList());
+                .toList();
+    }
+
+    private @NotNull String getEventMostProbableResult(final @NotNull Event event) {
+        double maxProbability = getMaxEventProbability(event);
+        String result = "";
+
+        if (Double.compare(maxProbability, event.getProbabilityHomeTeamWinner()) == 0)
+            result += "HOME_TEAM_WIN";
+        else if (Double.compare(maxProbability, event.getProbabilityDraw()) == 0)
+            result += "DRAW";
+        else
+            result += "AWAY_TEAM_WIN";
+        return result;
+    }
+
+    private double getMaxEventProbability(final @NotNull Event event) {
+        return Double.max(event.getProbabilityHomeTeamWinner(),
+                Double.max(event.getProbabilityDraw(), event.getProbabilityAwayTeamWinner()));
     }
 
     private void loadUniqueTeamNames() {
         uniqueTeamNames.addAll(
-                events.stream()
+                eventStorage.getEvents()
+                        .stream()
                         .map(Event::getHomeTeam)
                         .map(Competitor::getName)
                         .collect(Collectors.toSet())
         );
 
         uniqueTeamNames.addAll(
-                events.stream()
+                eventStorage.getEvents().stream()
                         .map(Event::getAwayTeam)
                         .map(Competitor::getName)
                         .collect(Collectors.toSet())
         );
-    }
-
-    public List<String> getTeamNamesAlphabetically() {
-        if (uniqueTeamNames.size() == 0)
-            loadUniqueTeamNames();
-        return uniqueTeamNames.stream()
-                .sorted(String::compareTo)
-                .collect(Collectors.toList());
     }
 }
