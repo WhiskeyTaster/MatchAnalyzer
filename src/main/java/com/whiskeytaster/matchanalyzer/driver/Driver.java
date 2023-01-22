@@ -18,7 +18,7 @@ public class Driver {
         try {
             events = objectMapper.readValue(new File(path), EventStorage.class);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return events;
     }

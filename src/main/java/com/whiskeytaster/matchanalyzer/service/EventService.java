@@ -1,5 +1,6 @@
 package com.whiskeytaster.matchanalyzer.service;
 
+import com.whiskeytaster.matchanalyzer.exception.EventsNumberException;
 import com.whiskeytaster.matchanalyzer.model.Competitor;
 import com.whiskeytaster.matchanalyzer.model.Event;
 import com.whiskeytaster.matchanalyzer.model.EventStorage;
@@ -63,15 +64,15 @@ public class EventService {
                 .toList();
     }
 
-    public List<String> getMostProbableResultsAsString(int numOfEvents) {
+    public List<String> getMostProbableResultsAsString(int numOfEvents) throws EventsNumberException{
         return getMostProbableResults(numOfEvents).stream()
                 .map(this::stringEvent)
                 .toList();
     }
 
-    public List<Event> getMostProbableResults(int numOfEvents) {
+    public List<Event> getMostProbableResults(int numOfEvents) throws EventsNumberException {
         if (numOfEvents < 1)
-            return new ArrayList<>();
+            throw new EventsNumberException("Requested number of events is less than 1. ");
 
         return eventStorage.getEvents()
                 .stream()
