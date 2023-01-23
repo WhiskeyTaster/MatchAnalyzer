@@ -17,6 +17,6 @@ public class Config {
 
     @Bean
     public Driver getDriver() {
-        return new Driver();
+        return Driver.INSTANCE;
     }
 }

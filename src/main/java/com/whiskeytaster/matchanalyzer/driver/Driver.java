@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.whiskeytaster.matchanalyzer.model.EventStorage;
 
 import java.io.File;
-public class Driver {
+
+public enum Driver {
+    INSTANCE;
+
     private final ObjectMapper objectMapper;
 
-    public Driver() {
+    Driver() {
         this.objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
     }
