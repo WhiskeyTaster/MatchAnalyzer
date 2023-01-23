@@ -22,7 +22,7 @@ public class EventController {
     public String getAll(Model model) {
         List<String> events = eventService.getEventsStringList();
         model.addAttribute("events", events);
-        return "event/showall";
+        return "event/show_events";
     }
 
     @GetMapping("/event/show{number}")
@@ -30,15 +30,14 @@ public class EventController {
             throws EventsNumberException {
         List<String> events = eventService.getMostProbableResultsAsString(number);
         model.addAttribute("events", events);
-        return "event/showall";
-
+        return "event/show_events";
     }
 
     @GetMapping("/event/teams")
     public String getTeams(Model model) {
         List<String> teams = eventService.getTeamNamesAlphabetically();
-        model.addAttribute("events", teams);
-        return "event/showall";
+        model.addAttribute("teams", teams);
+        return "event/show_teams";
     }
 
     @ExceptionHandler(EventsNumberException.class)
