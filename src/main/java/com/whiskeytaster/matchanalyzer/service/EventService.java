@@ -1,6 +1,7 @@
 package com.whiskeytaster.matchanalyzer.service;
 
-import com.whiskeytaster.matchanalyzer.exception.EventsNumberException;
+import com.whiskeytaster.matchanalyzer.driver.Driver;
+import com.whiskeytaster.matchanalyzer.exception.InvalidEventsNumberException;
 import com.whiskeytaster.matchanalyzer.model.Competitor;
 import com.whiskeytaster.matchanalyzer.model.Event;
 import com.whiskeytaster.matchanalyzer.model.EventStorage;
@@ -9,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,8 +18,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 public class EventService {
-    private final EventStorage eventStorage;
+    private EventStorage eventStorage;
     private final Set<String> uniqueTeamNames = new HashSet<>();
+    private final Driver driver;
 
     public List<String> getTeamNamesAlphabetically() {
         if (uniqueTeamNames.size() == 0)
@@ -64,21 +65,25 @@ public class EventService {
                 .toList();
     }
 
-    public List<String> getMostProbableResultsAsString(int numOfEvents) throws EventsNumberException{
+    public List<String> getMostProbableResultsAsString(int numOfEvents) throws InvalidEventsNumberException {
         return getMostProbableResults(numOfEvents).stream()
                 .map(this::stringEvent)
                 .toList();
     }
 
-    public List<Event> getMostProbableResults(int numOfEvents) throws EventsNumberException {
+    public List<Event> getMostProbableResults(int numOfEvents) throws InvalidEventsNumberException {
         if (numOfEvents < 1)
-            throw new EventsNumberException("Requested number of events is less than 1. ");
+            throw new InvalidEventsNumberException("Requested number of events is less than 1. ");
 
         return eventStorage.getEvents()
                 .stream()
                 .sorted((a, b) -> Double.compare(getMaxEventProbability(b), getMaxEventProbability(a)))
                 .limit(numOfEvents)
                 .toList();
+    }
+
+    public void loadDataFromFile(String fileName) {
+        eventStorage = driver.readEventsFromFile(fileName);
     }
 
     private @NotNull String getEventMostProbableResult(final @NotNull Event event) {

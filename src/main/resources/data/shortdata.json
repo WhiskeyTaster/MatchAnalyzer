@@ -1,0 +1,122 @@
+{
+  "Events":[{
+    "sport_event_id": "sr:sport_event:27636100",
+    "start_date": "2021-06-22T18:00:00+00:00",
+    "sport_name": "Soccer",
+    "competition_name": "UEFA Champions League",
+    "competition_id": "sr:competition:7",
+    "season_name": "UEFA Champions League 21/22",
+    "competitors": [
+      {
+        "id": "sr:competitor:37863",
+        "name": "SS Folgore Falciano Calcio",
+        "country": "San Marino",
+        "country_code": "SMR",
+        "abbreviation": "FFC",
+        "qualifier": "home",
+        "gender": "male"
+      },
+      {
+        "id": "sr:competitor:277829",
+        "name": "FC Prishtina",
+        "country": "Kosovo",
+        "country_code": "KOS",
+        "abbreviation": "PRI",
+        "qualifier": "away",
+        "gender": "male"
+      }
+    ],
+    "venue": {
+      "id": "sr:venue:8329",
+      "name": "Elbasan Arena",
+      "capacity": 12500,
+      "city_name": "Elbasan",
+      "country_name": "Albania",
+      "map_coordinates": "41.115875,20.091992",
+      "country_code": "ALB"
+    },
+    "probability_home_team_winner": 2.5,
+    "probability_draw": 88.1,
+    "probability_away_team_winner": 9.4
+    },
+    {
+      "sport_event_id": "sr:sport_event:27636182",
+      "start_date": "2021-06-22T18:00:00+00:00",
+      "sport_name": "Soccer",
+      "competition_name": "UEFA Champions League",
+      "competition_id": "sr:competition:7",
+      "season_name": "UEFA Champions League 21/22",
+      "competitors": [
+        {
+          "id": "sr:competitor:5187",
+          "name": "HB Torshavn",
+          "country": "Faroe Islands",
+          "country_code": "FRO",
+          "abbreviation": "HB",
+          "qualifier": "home",
+          "gender": "male"
+        },
+        {
+          "id": "sr:competitor:37946",
+          "name": "Inter Club de Escaldes",
+          "country": "Andorra",
+          "country_code": "AND",
+          "abbreviation": "ESC",
+          "qualifier": "away",
+          "gender": "male"
+        }
+      ],
+      "venue": {
+        "id": "sr:venue:18653",
+        "name": "Niko Dovana Stadium",
+        "capacity": 12040,
+        "city_name": "Durres",
+        "country_name": "Albania",
+        "map_coordinates": "41.326081,19.449856",
+        "country_code": "ALB"
+      },
+      "probability_home_team_winner": 68.9,
+      "probability_draw": 11.3,
+      "probability_away_team_winner": 19.8
+    },
+    {
+      "sport_event_id": "sr:sport_event:28374626",
+      "start_date": "2021-08-10T17:00:00+00:00",
+      "sport_name": "Soccer",
+      "competition_name": "UEFA Champions League",
+      "competition_id": "sr:competition:7",
+      "season_name": "UEFA Champions League 21/22",
+      "competitors": [
+        {
+          "id": "sr:competitor:5173",
+          "name": "FC Sheriff Tiraspol",
+          "country": "Moldova",
+          "country_code": "MDA",
+          "abbreviation": "SHF",
+          "qualifier": "home",
+          "gender": "male"
+        },
+        {
+          "id": "sr:competitor:5149",
+          "name": "FK Crvena Zvezda Belgrade",
+          "country": "Serbia",
+          "country_code": "SRB",
+          "abbreviation": "CRZ",
+          "qualifier": "away",
+          "gender": "male"
+        }
+      ],
+      "venue": {
+        "id": "sr:venue:1296",
+        "name": "Sheriff Stadium",
+        "capacity": 14000,
+        "city_name": "Tiraspol",
+        "country_name": "Moldova",
+        "map_coordinates": "46.837303,29.558842",
+        "country_code": "MDA"
+      },
+      "probability_home_team_winner": 26.1,
+      "probability_draw": 43.1,
+      "probability_away_team_winner": 30.8
+    }
+]}
