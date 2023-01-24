@@ -3,6 +3,7 @@ package com.whiskeytaster.matchanalyzer.controller;
 import com.whiskeytaster.matchanalyzer.exception.InvalidEventsNumberException;
 import com.whiskeytaster.matchanalyzer.exception.LoadingInputDataException;
 import com.whiskeytaster.matchanalyzer.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class EventController {
     private final EventService eventService;
 
-    @Autowired
-    public EventController(@NotNull EventService eventService) {
-        this.eventService = eventService;
-        eventService.loadDataFromFile("data");
-    }
 
     @GetMapping("/event/load_{dataName}")
     public String loadData(Model model, @PathVariable("dataName") String data) {
@@ -64,4 +61,8 @@ public class EventController {
         return new ResponseEntity<>(exc.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(value = NullPointerException.class)
+    public ResponseEntity<?> handleNullPointerException(NullPointerException exc) {
+        return new ResponseEntity<>("Data not loaded", HttpStatus.SERVICE_UNAVAILABLE);
+    }
 }
