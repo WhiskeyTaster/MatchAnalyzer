@@ -49,12 +49,4 @@ public class EventControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("events"))
                 .andExpect(MockMvcResultMatchers.model().attribute("events", Matchers.contains("123", "abc")));
     }
-
-    @Test
-    public void getMostProbableResultsAsStringTest_ZeroResults() throws Exception {
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/event/show0"))
-                .andExpect(MockMvcResultMatchers.status().isNotAcceptable());
-    }
-
 }

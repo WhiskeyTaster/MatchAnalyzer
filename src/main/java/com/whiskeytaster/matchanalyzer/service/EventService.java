@@ -84,6 +84,8 @@ public class EventService {
 
     public void loadDataFromFile(String fileName) {
         eventStorage = driver.readEventsFromFile(fileName);
+        System.out.println("XYZ");
+        loadUniqueTeamNames();
     }
 
     private @NotNull String getEventMostProbableResult(final @NotNull Event event) {
@@ -105,6 +107,7 @@ public class EventService {
     }
 
     private void loadUniqueTeamNames() {
+        uniqueTeamNames.clear();
         uniqueTeamNames.addAll(
                 eventStorage.getEvents()
                         .stream()

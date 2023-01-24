@@ -5,7 +5,6 @@ import com.whiskeytaster.matchanalyzer.exception.LoadingInputDataException;
 import com.whiskeytaster.matchanalyzer.service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +28,7 @@ public class EventController {
         return "event/show_events";
     }
 
-    @GetMapping("/event/showAll")
+    @GetMapping("/event/show")
     public String getAll(Model model) {
         List<String> events = eventService.getEventsStringList();
         model.addAttribute("events", events);
