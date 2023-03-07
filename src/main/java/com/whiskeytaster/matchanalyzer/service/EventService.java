@@ -7,7 +7,7 @@ import com.whiskeytaster.matchanalyzer.model.Event;
 import com.whiskeytaster.matchanalyzer.model.EventStorage;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Controller
+@Service
 @RequiredArgsConstructor
 public class EventService {
     private EventStorage eventStorage;
@@ -84,7 +84,6 @@ public class EventService {
 
     public void loadDataFromFile(String fileName) {
         eventStorage = driver.readEventsFromFile(fileName);
-        System.out.println("XYZ");
         loadUniqueTeamNames();
     }
 
